@@ -109,7 +109,8 @@ namespace BasicServerHTTPlistener
                 HttpListenerResponse response = context.Response;
 
                 // Construct a response.
-                string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
+                MyClass c = new MyClass();
+                string responseString = c.MyMethod(HttpUtility.ParseQueryString(request.Url.Query).Get("param1"), HttpUtility.ParseQueryString(request.Url.Query).Get("param2"));
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
                 // Get a response stream and write the response to it.
                 response.ContentLength64 = buffer.Length;
@@ -122,4 +123,14 @@ namespace BasicServerHTTPlistener
             // listener.Stop();
         }
     }
+
+    public class MyClass
+    {
+        public string MyMethod(string p1, string p2)
+        {
+            Console.WriteLine("Call MyMethod");
+            return "<HTML><BODY> Hello " + p1 + " et " + p2 + "</BODY></HTML>";
+        }
+    }
+
 }
